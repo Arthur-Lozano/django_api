@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="col-lg-6 offset-lg-3">
+  <div class="my-4 mx-5">
+    <h1>List of Entries</h1>
+    <a class="btn btn-primary my-3" href="{% url 'note_create' %}">Add a New Entry</a>
+  </div>
+
+  <ul>
+    {% for note in note_list %}
+    <div class="card bg-light mb-3 mx-2" style="width: 18rem; display:inline-block">
+      <div class="card-header">
+        <h5>{{ note.title }}</h5>
+      </div>
+      <div class="card-body">
+        <p class="card-text">{{ note.category }}</p>
+        <a href="{% url 'note_detail' note.pk %}" class="btn btn-secondary">View Details</a>
+      </div>
+    </div>
+    {% endfor %}
+  </ul>
+</div>
+
+{% endblock content %}
