@@ -15,7 +15,7 @@ import os
 import environ
 
 env = environ.Env(
-	DEBUG=(bool, False)
+	DEBUG=(bool, True)
 )
 
 environ.Env.read_env()
@@ -35,7 +35,7 @@ DEBUG = env('DEBUG')
 ALLOWED_HOSTS = ['*']
 
 
-ALLOWED_HOSTS = tuple(env.list('ALLOWED_HOSTS'))
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'notes',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -84,12 +85,6 @@ WSGI_APPLICATION = 'notebooks.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 
 DATABASES = {
     'default': {
@@ -101,6 +96,7 @@ DATABASES = {
         'PASSWORD': env('DATABASE_PASSWORD'),
     }
 }
+
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
@@ -142,3 +138,14 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ]
+}
